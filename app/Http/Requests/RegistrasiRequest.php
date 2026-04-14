@@ -7,15 +7,29 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class ProfileUpdateRequest extends FormRequest
+class RegistrasiRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'nrp' => ['required'],
+            'nrp' => ['required', 'string', 'max:50', Rule::unique(User::class)],
             'jabatan' => ['required', 'string', 'max:255'],
             'divisi' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::class)],
 
             'email' => [
                 'required',
@@ -23,11 +37,11 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
+                Rule::unique(User::class),
             ],
 
             'password' => [
-                'nullable',
+                'required',
                 'confirmed',
                 Password::min(8)
                     ->letters()
@@ -43,8 +57,13 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name.required' => 'Nama wajib diisi.',
             'nrp.required' => 'NRP/NIP wajib diisi.',
+            'nrp.unique' => 'NRP sudah terdaftar.',
             'jabatan.required' => 'Jabatan wajib diisi.',
             'divisi.required' => 'Divisi wajib diisi.',
+
+            'username.required' => 'Username wajib diisi.',
+            'username.alpha_dash' => 'Username hanya boleh huruf, angka, dash (-) dan underscore (_).',
+            'username.unique' => 'Username sudah digunakan.',
 
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',

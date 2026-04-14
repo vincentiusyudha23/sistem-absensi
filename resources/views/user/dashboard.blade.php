@@ -103,14 +103,14 @@
                             <div class="card-body">
                                 <h4 class="fw-bold m-0 text-center" id="timer"></h4>
                                 
-                                @if ($absensi->waktu_masuk || $absensi->waktu_keluar)
+                                @if ($absensi?->waktu_masuk || $absensi?->waktu_keluar)
                                     <hr>
                                 
                                     <ul class="m-0 pb-0">
-                                        @if ($absensi->waktu_masuk)
+                                        @if ($absensi?->waktu_masuk)
                                             <li>Waktu Check-in : {{ \Carbon\Carbon::parse($absensi->waktu_masuk)->format('H:i') }} WIB</li>
                                         @endif
-                                        @if ($absensi->waktu_keluar)
+                                        @if ($absensi?->waktu_keluar)
                                             <li>Waktu Check-out : {{ \Carbon\Carbon::parse($absensi->waktu_keluar)->format('H:i') }} WIB</li>
                                         @endif
                                     </ul>
@@ -484,6 +484,7 @@
 
             async function sendData(){
                 submitBtn.disabled = true;
+                Swal.showLoading();
 
                 try{
                     const response = await fetch('{{ route("user.store_absen") }}', {
@@ -503,6 +504,7 @@
                     const data = await response.json();
                     
                     if(data.success && response.ok){
+                        Swal.hideLoading();
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil!',
@@ -514,7 +516,7 @@
                         });
                     }else{
                         submitBtn.disabled = false;
-                        Swal.fire('Gagal!', data.message ?? 'Terjadi kesalahan.', 'error');
+                        Swal.fire('Gagal!', data.msg ?? 'Terjadi kesalahan.', 'error');
                     }
                 } catch (error){
                     modalCheckIn.hide();

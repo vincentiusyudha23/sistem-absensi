@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link text-dark">
+                    <a href="{{ route('user.profile') }}" class="nav-link {{ request()->routeIs('user.profile') ? 'active' : 'text-dark' }}">
                         <i class="bi bi-person-fill"></i> Profil
                     </a>
                 </li>

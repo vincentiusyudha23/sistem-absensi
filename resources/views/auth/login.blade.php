@@ -105,6 +105,10 @@
                     </div>
 
                 </form>
+
+                <div class="text-center mt-2">
+                    <a href="{{ route('register') }}" class="text-success">Registrasi!</a>
+                </div>
             </div>
 
         </div>

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Jobs\ProcessAbsensiImage;
 use App\Models\Absensi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -32,7 +35,7 @@ class UserController extends Controller
             $timeAbsen = Carbon::now();
 
             $minAbsen = Carbon::today()->setTime(6, 0);
-            $maxAbsen = Carbon::today()->setTime(22, 30);
+            $maxAbsen = Carbon::today()->setTime(17, 30);
 
             if($timeAbsen->lt($minAbsen) || $timeAbsen->gt($maxAbsen) || $timeAbsen->isWeekend()){
                 return response()->json([
@@ -95,5 +98,32 @@ class UserController extends Controller
     public function riwayatAbsen()
     {
         return view('user.riwayat-absen');
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('user.profile', compact('user'));
+    }
+
+    public function updateProfile(ProfileUpdateRequest $request)
+    {
+        $user = Auth::user();
+
+        $user->update([
+            'name' => $request->name,
+            'nrp' => $request->nrp,
+            'jabatan' => $request->jabatan,
+            'divisi' => $request->divisi,
+            'email' => $request->email
+        ]);
+
+        if($request->filled('password')){
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
     }
 }
