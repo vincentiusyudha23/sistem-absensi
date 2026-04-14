@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    min-height: 100dvh;
+    overflow-y: auto;
+    background-color: #f1f3f5;
+}
+
+.navbar {
+    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+}
+
+
+.main-content {
+    margin-top: 100px;
+    margin-left: 240px;
+    height: auto;
+    overflow-y: auto;
+}
+
+/* Override warna primary Bootstrap jadi hijau */
+:root {
+    --bs-primary: #198754;
+    --bs-primary-rgb: 25, 135, 84;
+}
+
+/* Semua komponen primary */
+.btn-primary {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-primary:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+.btn-logout:hover {
+    color: red;
+}
+
+/* Checkbox */
+.form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+/* Radio */
+.form-check-input:checked[type="radio"] {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+/* Focus checkbox */
+.form-check-input:focus {
+    border-color: #198754;
+    box-shadow: none;
+}
+
+/* Link */
+.text-primary {
+    color: #198754 !important;
+}
+
+/* Pagination / active */
+.page-item.active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+/* Input focus (biar konsisten) */
+.form-control:focus {
+    border-color: #198754;
+    box-shadow: none !important;
+}
+
+.sidebar {
+    width: 240px;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+/* Active menu */
+.nav-link.active {
+    background-color: #198754 !important;
+}
+
+/* Hover effect */
+.nav-link:hover {
+    background-color: #f1f1f1;
+}
+
+label.required::after {
+    content: " *";
+    color: red;
+}
+
+#overlay {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 998;
+}
+
+#overlay.show {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -240px;
+        transition: 0.3s;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    #profile {
+        display: none;
+    }
+
+    .navbar-brand img {
+        width: 45px;
+        height: auto;
+    }
+
+    .navbar-brand h3 {
+        font-size: medium;
+    }
+
+    .navbar-brand span {
+        font-size: smaller;
+    }
+}
