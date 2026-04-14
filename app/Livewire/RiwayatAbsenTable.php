@@ -5,9 +5,11 @@ namespace App\Livewire;
 use App\Enums\StatusAbsenEnum;
 use App\Models\Absensi;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class RiwayatAbsenTable extends DataTableComponent
 {
@@ -15,7 +17,7 @@ class RiwayatAbsenTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setFiltersEnabled() // Aktifkan filters
-            ->setFilterLayout('slide-down') // Atau 'slide-down'
+            ->setFilterLayout('slide-down')
             ->setFilterPillsEnabled()
             ->setColumnSelectDisabled()
             ->setSearchVisibilityDisabled()
@@ -93,6 +95,24 @@ class RiwayatAbsenTable extends DataTableComponent
                     return StatusAbsenEnum::getBadgeStatusAbsen($row);
                 })
                 ->html(),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            DateRangeFilter::make('Tanggal')
+                ->config([
+                    'allowInput' => false, 
+                    'dateFormat' => 'd-m-Y',
+                    'locale' => 'id'
+                ])
+                ->setFilterPillValues([0 => 'minDate', 1 => 'maxDate'])
+                ->filter(function(Builder $builder, array $dateRange) {
+                     $builder
+                        ->whereDate('created_at', '>=', Carbon::parse($dateRange['minDate'])) // minDate is the start date selected
+                        ->whereDate('created_at', '<=', Carbon::parse($dateRange['maxDate']));
+                }),
         ];
     }
 }
