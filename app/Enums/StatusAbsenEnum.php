@@ -97,7 +97,7 @@ class StatusAbsenEnum
         return match($val){
             1 => '<span class="badge text-bg-success">Tepat Waktu</span>',
             2 => '<span class="badge text-bg-warning">Terlambat</span>',
-            3 => '<span class="badge text-bg-warning">Tidak Hadir</span>',
+            3 => '<span class="badge text-bg-danger">Tidak Hadir</span>',
             default => ''
         };
     }
