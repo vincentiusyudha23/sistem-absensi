@@ -29,6 +29,7 @@ class DashboardAbsensiTable extends DataTableComponent
     {
         $absensi = Absensi::query()
             ->with('user')
+            ->select('absensis.*')
             ->whereDate('absensis.created_at', Carbon::now());
             
         return $absensi;
@@ -40,7 +41,14 @@ class DashboardAbsensiTable extends DataTableComponent
             Column::make("Nama", "user.name")
                 ->searchable()
                 ->sortable(),
+            Column::make("NRP/NIP", "user.nrp")
+                ->searchable()
+                ->sortable(),
             Column::make("Divisi", "user.divisi")
+                ->searchable()
+                ->sortable(),
+            Column::make("Tanggal", "created_at")
+                ->format(fn($row) => Carbon::parse($row)->translatedFormat('l, d-m-Y'))
                 ->searchable()
                 ->sortable(),
             Column::make("Check-in", "waktu_masuk")
@@ -60,7 +68,9 @@ class DashboardAbsensiTable extends DataTableComponent
                         ->location(fn($row) => '#')
                         ->attributes(function($row) {
                             return [
-                                'class' => 'btn btn-sm btn-success',
+                                'type' => 'button',
+                                'class' => 'btn btn-sm btn-success btn-detail',
+                                'data-id' => $row->id
                             ];
                         }),
                 ])

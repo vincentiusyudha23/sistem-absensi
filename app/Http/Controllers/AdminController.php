@@ -115,7 +115,8 @@ class AdminController extends Controller
     
     public function dataAbsensi()
     {
-        return view('admin.data-absensi');
+        $absens = Absensi::all();
+        return view('admin.data-absensi', compact('absens'));
     }
 
     public function getNewAbsensis()
@@ -137,5 +138,45 @@ class AdminController extends Controller
                     ->toArray();
 
         return response()->json($absens);
+    }
+
+    public function getDetailAbsen($id)
+    {
+        $absen = Absensi::with('user')->findOrFail($id);
+        $a     = $absen->user;
+
+        $status = match($absen->status){
+            1 => 'hadir',
+            2 => 'terlambat',
+            3 => 'tidak',
+            default => ''
+        };
+ 
+        return response()->json([
+            'id'        => $absen->id,
+            'nama'      => $a->name       ?? '-',
+            'nrp'       => $a->nrp        ?? '-',
+            'divisi'    => $a->divisi     ?? '-',
+            'tanggal'   => Carbon::parse($absen->created_at)->isoFormat('dddd, D MMMM Y'),
+            'status'    => $status,
+ 
+            // Waktu (format H:i)
+            'check_in'  => $absen->waktu_masuk  ? Carbon::parse($absen->waktu_masuk)->format('H:i')  : null,
+            'check_out' => $absen->waktu_keluar ? Carbon::parse($absen->waktu_keluar)->format('H:i') : null,
+ 
+            // Foto (path relatif dari storage)
+            'foto_in'   => $absen->image_masuk,
+            'foto_out'  => $absen->image_keluar,
+ 
+            // Alamat
+            'alamat_in'  => $absen->address1,
+            'alamat_out' => $absen->address2,
+ 
+            // Koordinat
+            'lat_in'   => $absen->latitude1,
+            'lng_in'   => $absen->longitude1,
+            'lat_out'  => $absen->latitude2,
+            'lng_out'  => $absen->longitude2,
+        ]);
     }
 }

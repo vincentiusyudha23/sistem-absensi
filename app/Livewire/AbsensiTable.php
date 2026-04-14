@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enums\StatusAbsenEnum;
 use App\Models\Absensi;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
@@ -12,6 +13,10 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class AbsensiTable extends DataTableComponent
 {
+    public $tanggal = null;
+    public $status = null;
+    public $searchNama = null;
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')
@@ -24,11 +29,33 @@ class AbsensiTable extends DataTableComponent
             ->setEmptyMessage('Tidak ada data');
     }
 
+    #[On('setFilterAbsensi')]
+    public function setFilterAbsensi($tanggal, $status, $search)
+    {
+        $this->tanggal = $tanggal ?? null;
+        $this->status = $status ?? null;
+        $this->searchNama = $search ?? null;
+
+        $this->resetPage(); // penting biar balik ke page 1
+    }
+
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        $absensi = Absensi::query();
-            
-        return $absensi;
+        return Absensi::query()
+            ->with('user')
+            ->select('absensis.*')
+            ->when($this->tanggal, function ($query) {
+                $query->whereDate('absensis.created_at', $this->tanggal);
+            })
+            ->when($this->status, function ($query) {
+                $query->where('absensis.status', $this->status);
+            })
+            ->when($this->searchNama, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('name', 'like', '%' . $this->searchNama . '%')
+                    ->orWhere('nrp', 'like', '%' . $this->searchNama . '%');
+                });
+            });
     }
 
     public function columns(): array
@@ -37,7 +64,14 @@ class AbsensiTable extends DataTableComponent
             Column::make("Nama", "user.name")
                 ->searchable()
                 ->sortable(),
+            Column::make("NRP/NIP", "user.nrp")
+                ->searchable()
+                ->sortable(),
             Column::make("Divisi", "user.divisi")
+                ->searchable()
+                ->sortable(),
+            Column::make("Tanggal", "created_at")
+                ->format(fn($row) => Carbon::parse($row)->translatedFormat('l, d-m-Y'))
                 ->searchable()
                 ->sortable(),
             Column::make("Check-in", "waktu_masuk")
@@ -54,10 +88,12 @@ class AbsensiTable extends DataTableComponent
                 ->buttons([
                     LinkColumn::make('Detail')
                         ->title(fn($row) => 'Detail')
-                        ->location(fn($row) => '#')
+                        ->location(fn($row) => 'javascript:void(0)')
                         ->attributes(function($row) {
                             return [
-                                'class' => 'btn btn-sm btn-success',
+                                'type' => 'button',
+                                'class' => 'btn btn-sm btn-success btn-detail',
+                                'data-id' => $row->id
                             ];
                         }),
                 ])

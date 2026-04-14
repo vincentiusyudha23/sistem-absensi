@@ -30,11 +30,11 @@
                     </a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="#" class="nav-link text-dark">
                         <i class="bi bi-gear-fill"></i> Pengaturan
                     </a>
-                </li>
+                </li> --}}
             @else
                 <li>
                     <a href="{{ route('user.riwayat_absen') }}" class="nav-link {{ request()->routeIs('user.riwayat_absen') ? 'active' : 'text-dark' }}">

@@ -11,9 +11,8 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10000;
+    z-index: 1000;
 }
-
 
 .main-content {
     margin-top: 100px;
@@ -151,4 +150,308 @@ label.required::after {
     .navbar-brand span {
         font-size: smaller;
     }
+}
+
+#modalDetail .modal-dialog {
+    max-width: 780px;
+}
+#modalDetail .modal-content {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#modalDetail .modal-header {
+    background: var(--bs-primary);
+    color: #fff;
+    padding: 14px 20px;
+    border: none;
+}
+#modalDetail .modal-header .modal-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+#modalDetail .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+#modalDetail .modal-body {
+    background: #f3f4f6;
+    padding: 20px;
+}
+#modalDetail .modal-footer {
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+    padding: 12px 20px;
+}
+
+/* Personel strip */
+.personel-strip {
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e5e7eb;
+}
+.personel-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #2d7a3a;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.personel-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.personel-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+}
+.personel-meta {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* Section label */
+.section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #2d7a3a;
+    margin-bottom: 10px;
+    margin-top: 4px;
+}
+
+/* Check-in/out cards */
+.absen-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+.absen-card-header {
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.absen-card-header.checkin {
+    background: #f0fdf4;
+}
+.absen-card-header.checkout {
+    background: #fff5f5;
+}
+.dot-ci {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #2d7a3a;
+    flex-shrink: 0;
+}
+.dot-co {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #e53935;
+    flex-shrink: 0;
+}
+.absen-card-header .label-ci {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d7a3a;
+}
+.absen-card-header .label-co {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e53935;
+}
+.absen-card-header .time-val {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+}
+.absen-card-body {
+    padding: 12px 14px;
+}
+
+/* Foto */
+.foto-box {
+    width: 100%;
+    height: 110px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    position: relative;
+}
+.foto-box:hover {
+    opacity: 0.85;
+}
+.foto-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.foto-box .no-foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #9ca3af;
+}
+.foto-box .no-foto i {
+    font-size: 22px;
+}
+.foto-box .no-foto span {
+    font-size: 11px;
+}
+.foto-box .zoom-hint {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.addr-label {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-bottom: 2px;
+}
+.addr-text {
+    font-size: 11px;
+    color: #374151;
+    line-height: 1.45;
+}
+
+/* Map */
+.map-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+.map-card-header {
+    padding: 8px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+}
+.map-card-header a {
+    margin-left: auto;
+    font-size: 11px;
+    color: #2d7a3a;
+    text-decoration: none;
+    font-weight: 600;
+}
+#detail-map {
+    height: 200px;
+    width: 100%;
+}
+
+.coords-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #f0f0f0;
+}
+.coord-item {
+    padding: 8px 14px;
+    border-right: 1px solid #f0f0f0;
+}
+.coord-item:last-child {
+    border-right: none;
+}
+.coord-label {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-bottom: 2px;
+}
+.coord-val {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Skeleton loader */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.3s infinite;
+    border-radius: 6px;
+}
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Foto Modal (fullscreen preview) */
+#modalFoto .modal-dialog {
+    max-width: 500px;
+}
+#modalFoto .modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+}
+#modalFoto img {
+    width: 100%;
+    border-radius: 0;
+    display: block;
+}
+
+/* Spinner overlay */
+.modal-loading {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 14px;
+}
+
+/* Sort icons */
+.sort-link {
+    color: inherit;
+    text-decoration: none;
+}
+.sort-link:hover {
+    color: #2d7a3a;
 }
