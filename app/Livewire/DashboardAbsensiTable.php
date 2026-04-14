@@ -5,12 +5,13 @@ namespace App\Livewire;
 use App\Enums\StatusAbsenEnum;
 use App\Models\Absensi;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
-class AbsensiTable extends DataTableComponent
+class DashboardAbsensiTable extends DataTableComponent
 {
     public function configure(): void
     {
@@ -26,7 +27,9 @@ class AbsensiTable extends DataTableComponent
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        $absensi = Absensi::query();
+        $absensi = Absensi::query()
+            ->with('user')
+            ->whereDate('absensis.created_at', Carbon::now());
             
         return $absensi;
     }

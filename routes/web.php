@@ -23,6 +23,7 @@ Route::middleware(['auth', 'role:admin'])->controller(AdminController::class)->p
     Route::get('/edit-anggota/{id}', 'editAnggota')->name('edit_anggota');
     Route::post('/edit-anggota/update/{id}', 'updateAnggota')->name('edit_anggota.update');
     Route::get('/data-absensi', 'dataAbsensi')->name('data_absensi');
+    Route::get('/fetch-data-absensi', 'getNewAbsensis')->name('fetch_data_absensi');
 });
 
 Route::middleware(['auth', 'role:user'])->controller(UserController::class)->name('user.')->group(function(){

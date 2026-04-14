@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +13,8 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $absens = Absensi::whereDate('created_at', Carbon::now())->get();
+        return view('admin.dashboard', compact('absens'));
     }
 
     public function listUsers()
@@ -113,5 +116,26 @@ class AdminController extends Controller
     public function dataAbsensi()
     {
         return view('admin.data-absensi');
+    }
+
+    public function getNewAbsensis()
+    {
+        $absens = Absensi::whereDate('created_at', Carbon::now())
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->map(function($absen){
+                        return [
+                            'id' => $absen->id,
+                            'name' => $absen->user?->name,
+                            'waktu_masuk' => Carbon::parse($absen->waktu_masuk)->format('H:i') . ' WIB',
+                            'divisi' => $absen->user->divisi,
+                            'status' => $absen->status,
+                            'lat' => $absen->latitude1,
+                            'lng' => $absen->longitude1
+                        ];
+                    })
+                    ->toArray();
+
+        return response()->json($absens);
     }
 }
