@@ -137,17 +137,17 @@
                         <div class="section-label"><i class="bi bi-camera me-1"></i>Foto & Waktu Kehadiran</div>
                         <div class="row g-3 mb-3">
 
-                            {{-- Check-In Card --}}
+                            {{-- Absen Masuk Card --}}
                             <div class="col-6">
                                 <div class="absen-card">
                                     <div class="absen-card-header checkin">
                                         <div class="dot-ci"></div>
-                                        <span class="label-ci">Check-In</span>
+                                        <span class="label-ci">Absen Masuk</span>
                                         <span class="time-val" id="detail-waktu-in">-</span>
                                     </div>
                                     <div class="absen-card-body">
                                         <div class="foto-box" id="foto-in-box" onclick="previewFoto('in')">
-                                            <img id="foto-in" src="" alt="Foto Check-In" style="display:none">
+                                            <img id="foto-in" src="" alt="Foto Absen Masuk" style="display:none">
                                             <div class="no-foto" id="no-foto-in">
                                                 <i class="bi bi-image"></i>
                                                 <span>Tidak ada foto</span>
@@ -158,24 +158,24 @@
                                         </div>
                                         <div class="addr-label">
                                             <i class="bi bi-geo-alt-fill" style="color:#2d7a3a"></i>
-                                            Lokasi Check-In
+                                            Lokasi Absen Masuk
                                         </div>
                                         <div class="addr-text" id="detail-addr-in">-</div>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Check-Out Card --}}
+                            {{-- Absen Pulang Card --}}
                             <div class="col-6">
                                 <div class="absen-card">
                                     <div class="absen-card-header checkout">
                                         <div class="dot-co"></div>
-                                        <span class="label-co">Check-Out</span>
+                                        <span class="label-co">Absen Pulang</span>
                                         <span class="time-val" id="detail-waktu-out">-</span>
                                     </div>
                                     <div class="absen-card-body">
                                         <div class="foto-box" id="foto-out-box" onclick="previewFoto('out')">
-                                            <img id="foto-out" src="" alt="Foto Check-Out"
+                                            <img id="foto-out" src="" alt="Foto Absen Pulang"
                                                 style="display:none">
                                             <div class="no-foto" id="no-foto-out">
                                                 <i class="bi bi-image"></i>
@@ -187,7 +187,7 @@
                                         </div>
                                         <div class="addr-label">
                                             <i class="bi bi-geo-alt-fill" style="color:#e53935"></i>
-                                            Lokasi Check-Out
+                                            Lokasi Absen Pulang
                                         </div>
                                         <div class="addr-text" id="detail-addr-out">-</div>
                                     </div>
@@ -208,11 +208,11 @@
                             <div id="detail-map"></div>
                             <div class="coords-strip">
                                 <div class="coord-item">
-                                    <div class="coord-label">📍 Koordinat Check-In</div>
+                                    <div class="coord-label">📍 Koordinat Absen Masuk</div>
                                     <div class="coord-val" id="coord-in">-</div>
                                 </div>
                                 <div class="coord-item">
-                                    <div class="coord-label">📍 Koordinat Check-Out</div>
+                                    <div class="coord-label">📍 Koordinat Absen Pulang</div>
                                     <div class="coord-val" id="coord-out">-</div>
                                 </div>
                             </div>
@@ -365,7 +365,7 @@
             document.getElementById('detail-addr-in').textContent = d.alamat_in ?? 'Tidak tersedia';
             document.getElementById('detail-addr-out').textContent = d.alamat_out ?? 'Tidak tersedia';
 
-            /* Foto check-in */
+            /* Foto Absen Masuk */
             fotoInUrl = d.foto_in ? `/storage/${d.foto_in}` : '';
             fotoOutUrl = d.foto_out ? `/storage/${d.foto_out}` : '';
             setFoto('in', fotoInUrl);
@@ -419,7 +419,7 @@
             if (!url) return;
 
             document.getElementById('modalFotoLabel').textContent =
-                type === 'in' ? 'Foto Check-In' : 'Foto Check-Out';
+                type === 'in' ? 'Foto Absen Masuk' : 'Foto Absen Pulang';
             document.getElementById('foto-preview-img').src = url;
             new bootstrap.Modal(document.getElementById('modalFoto')).show();
         }
@@ -465,7 +465,7 @@
                     })
                     .addTo(detailMap)
                     .bindPopup(
-                        `<strong style="color:#2d7a3a">Check-In</strong><br>${d.check_in ?? ''} WIB<br><small>${d.alamat_in ?? ''}</small>`
+                        `<strong style="color:#2d7a3a">Absen Masuk</strong><br>${d.check_in ?? ''} WIB<br><small>${d.alamat_in ?? ''}</small>`
                         );
                 bounds.push([latIn, lngIn]);
             }
@@ -476,7 +476,7 @@
                     })
                     .addTo(detailMap)
                     .bindPopup(
-                        `<strong style="color:#e53935">Check-Out</strong><br>${d.check_out ?? ''} WIB<br><small>${d.alamat_out ?? ''}</small>`
+                        `<strong style="color:#e53935">Absen Pulang</strong><br>${d.check_out ?? ''} WIB<br><small>${d.alamat_out ?? ''}</small>`
                         );
                 bounds.push([latOut, lngOut]);
             }

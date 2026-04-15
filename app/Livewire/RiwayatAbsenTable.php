@@ -40,12 +40,12 @@ class RiwayatAbsenTable extends DataTableComponent
                     return Carbon::parse($row)->translatedFormat('l, d-m-Y');
                 })
                 ->sortable(),
-            Column::make("Check-out", "waktu_masuk")
+            Column::make("Absen Masuk", "waktu_masuk")
                 ->format(function($row){
                     return Carbon::parse($row)->format('H:i');
                 })
                 ->sortable(),
-            Column::make("Keterangan Check-in", "id")
+            Column::make("Keterangan Masuk", "id")
                 ->format(function($row){
                     $absen = Absensi::find($row);
                     $image = asset('storage/' . $absen->image_masuk);
@@ -65,12 +65,12 @@ class RiwayatAbsenTable extends DataTableComponent
                     return '';
                 })
                 ->html(),
-            Column::make("Check-in", "waktu_keluar")
+            Column::make("Absen Pulang", "waktu_keluar")
                 ->format(function($row){
                     return Carbon::parse($row)->format('H:i');
                 })
                 ->sortable(),
-            Column::make("Keterangan Check-out", "id")
+            Column::make("Keterangan Pulang", "id")
                 ->format(function($row){
                     $absen = Absensi::find($row);
                     $image = asset('storage/' . $absen->image_keluar);

@@ -51,10 +51,10 @@ class DashboardAbsensiTable extends DataTableComponent
                 ->format(fn($row) => Carbon::parse($row)->translatedFormat('l, d-m-Y'))
                 ->searchable()
                 ->sortable(),
-            Column::make("Check-in", "waktu_masuk")
+            Column::make("Waktu Masuk", "waktu_masuk")
                 ->format(fn($row) => Carbon::parse($row)->format('H:i'))
                 ->sortable(),
-            Column::make("Check-Out", "waktu_keluar")
+            Column::make("Waktu Pulang", "waktu_keluar")
                 ->format(fn($row) => Carbon::parse($row)->format('H:i'))
                 ->sortable(),
             Column::make("Status", "status")

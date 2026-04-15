@@ -142,12 +142,12 @@
         <div class="row g-2 mb-3">
             <div class="col-md-6 col-12">
                 <button type="button" id="checkinBtn" {{ !empty($absensi) ? 'disabled' : '' }} class="btn fs-2 fw-bold btn-success text-center w-100">
-                    <i class="bi bi-check-circle-fill mx-1"></i> Check-In
+                    <i class="bi bi-check-circle-fill mx-1"></i> Absen Masuk
                 </button>
             </div>
             <div class="col-md-6 col-12">
                 <button type="button" id="checkoutBtn" {{ empty($absensi) ? 'disabled' : '' }} class="btn fs-2 fw-bold btn-danger text-center w-100">
-                    <i class="bi bi-x-circle-fill mx-1"></i> Check-Out
+                    <i class="bi bi-x-circle-fill mx-1"></i> Absen Pulang
                 </button>
             </div>
         </div>
@@ -204,10 +204,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">Tanggal</th>
-                                <th scope="col" class="text-center">Waktu Check-In</th>
-                                <th scope="col">Keterangan Check-In</th>
-                                <th scope="col" class="text-center">Waktu Check-Out</th>
-                                <th scope="col">Keterangan Check-Out</th>
+                                <th scope="col" class="text-center">Waktu Masuk</th>
+                                <th scope="col">Keterangan Masuk</th>
+                                <th scope="col" class="text-center">Waktu Pulang</th>
+                                <th scope="col">Keterangan Pulang</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -436,12 +436,12 @@
             let textTitleModal = document.getElementById('exampleModalLabel');
 
             checkinBtn.addEventListener('click', async function(e) {
-                textTitleModal.innerText = 'Check-In';
+                textTitleModal.innerText = 'Absen Masuk';
                 await handleOpenCamera();
             });
 
             checkoutBtn.addEventListener('click', async function (e) {
-                textTitleModal.innerText = 'Check-Out';
+                textTitleModal.innerText = 'Absen Pulang';
                 await handleOpenCamera();
             });
 
