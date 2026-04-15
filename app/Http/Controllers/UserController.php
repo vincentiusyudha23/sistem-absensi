@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -125,5 +126,25 @@ class UserController extends Controller
         }
 
         return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function getMyAddress()
+    {
+        $lat = request('lat');
+        $lng = request('lng');
+
+        $token = env('MAPBOX_TOKEN');
+
+        $response = Http::get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$lng},{$lat}.json", [
+            'access_token' => $token,
+            'language' => 'id',
+            'limit' => 1,
+        ]);
+
+        $data = $response->json();
+
+        return response()->json([
+            'address' => $data['features'][0]['place_name'] ?? null
+        ]);
     }
 }

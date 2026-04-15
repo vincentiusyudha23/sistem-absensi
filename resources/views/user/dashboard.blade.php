@@ -316,13 +316,11 @@
 
             async function getAddress(lat, lng) {
                 try {
-                    const response = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-                    );
-
+                    let url = '{{ route("user.getMyAddress") }}' + `?lat=${lat}&lng=${lng}`;
+                    const response = await fetch(url);
                     const data = await response.json();
 
-                    return data.display_name; // alamat lengkap
+                    return data.address || "Alamat tidak ditemukan";
                 } catch (error) {
                     return "Gagal mengambil alamat";
                 }

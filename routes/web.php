@@ -33,6 +33,7 @@ Route::middleware(['auth', 'role:user'])->controller(UserController::class)->nam
     Route::get('/riwayat-absen', 'riwayatAbsen')->name('riwayat_absen');
     Route::get('/profil', 'profile')->name('profile');
     Route::post('/profil-update', 'updateProfile')->name('profile.update');
+    Route::get('/get-my-address', 'getMyAddress')->name('getMyAddress');
 });
 
 require __DIR__.'/auth.php';
