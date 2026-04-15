@@ -117,10 +117,6 @@ label.required::after {
     display: block;
 }
 
-#map{
-    height: 100%;
-}
-
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
@@ -134,10 +130,6 @@ label.required::after {
 
     .main-content {
         margin-left: 0;
-    }
-    
-    #map{
-        height: 250px;
     }
 }
 
