@@ -286,6 +286,8 @@
             function disableButtons(msg = "GPS tidak aktif") {
                 checkinBtn.disabled = true;
                 checkoutBtn.disabled = true;
+
+                alert(msg);
             }
 
             // INIT MAP SEKALI SAJA
@@ -325,6 +327,7 @@
                     return data.display_name; // alamat lengkap
                 } catch (error) {
                     return "Gagal mengambil alamat";
+                    alert(error);
                 }
             }
 
