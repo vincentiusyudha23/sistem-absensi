@@ -130,7 +130,7 @@
                         </button>
                     </div>
                     <div class="col-lg-8 col-12">
-                        <div class="rounded" id="map" style="height: 100%;"></div>
+                        <div class="rounded" id="map"></div>
                     </div>
                     <input name="latitude" type="hidden" id="latitude">
                     <input name="longitude" type="hidden" id="longitude">
