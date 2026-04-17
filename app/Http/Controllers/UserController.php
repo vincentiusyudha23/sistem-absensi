@@ -36,7 +36,7 @@ class UserController extends Controller
             $timeAbsen = Carbon::now();
 
             $minAbsen = Carbon::today()->setTime(6, 0);
-            $maxAbsen = Carbon::today()->setTime(22, 30);
+            $maxAbsen = Carbon::today()->setTime(17, 30);
 
             $radius = config('app.radius_absen');
             $homeLat = $user->latitude;
