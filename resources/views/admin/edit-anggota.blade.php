@@ -12,6 +12,9 @@
                 <li class="breadcrumb-item">
                     <a href="{{ route('admin.list_users') }}">Daftar Anggota</a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('admin.detail_anggota', $user->id) }}">Detail Anggota</a>
+                </li>
                 <li class="breadcrumb-item active">Edit Anggota</li>
             </ol>
         </nav>
@@ -26,6 +29,12 @@
             </ul>
 
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
         </div>
     @endif
 
@@ -88,17 +97,54 @@
                     <!-- Divisi -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">Divisi</label>
-                        <select 
-                            required
+
+                        <input 
+                            type="text" 
                             name="divisi"
-                            class="form-select @error('divisi') is-invalid @enderror"
+                            class="form-control @error('divisi') is-invalid @enderror"
+                            placeholder="Masukkan Divisi"
+                            value="{{ $user->divisi }}"
+                            required
                         >
-                            <option value="">-- Pilih Divisi --</option>
-                            <option value="IT" {{ old('divisi') == 'IT' ? 'selected' : '' }}>IT</option>
-                            <option value="Operasional" {{ old('divisi') == 'Operasional' ? 'selected' : '' }}>Operasional</option>
-                            <option value="Logistik" {{ old('divisi') == 'Logistik' ? 'selected' : '' }}>Logistik</option>
-                        </select>
                         @error('divisi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="rounded" id="map" style="height: 300px;"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required">Latitude</label>
+
+                        <input 
+                            type="text" 
+                            id="lat"
+                            name="latitude"
+                            class="form-control @error('latitude') is-invalid @enderror"
+                            placeholder="Masukkan Latitude"
+                            value="{{ $user->latitude ?? -6.208437147272047 }}"
+                            required
+                        >
+                        @error('latitude')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required">Longitude</label>
+
+                        <input 
+                            type="text" 
+                            id="lng"
+                            name="longitude"
+                            class="form-control @error('longitude') is-invalid @enderror"
+                            placeholder="Masukkan Longitude"
+                            value="{{ $user->longitude ?? 106.85999880653159 }}"
+                            required
+                        > 
+                        @error('longitude')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -112,7 +158,7 @@
 
                 <!-- Button -->
                 <div class="d-flex justify-content-end mt-3">
-                    <a href="{{ route('admin.list_users') }}" class="btn btn-secondary me-2">
+                    <a href="{{ route('admin.detail_anggota', $user->id) }}" class="btn btn-secondary me-2">
                         Batal
                     </a>
                     <button type="submit" class="btn btn-success">
@@ -125,4 +171,60 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('scripts')
+    <script>
+        let map = null;
+        let marker = null;
+
+        function initMap(lat, lng) {
+            // kalau map sudah ada → hapus dulu
+            if (map !== null) {
+                map.remove();
+            }
+
+            map = L.map('map').setView([lat, lng], 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+
+            marker = L.marker([lat, lng], {
+                draggable: true
+            }).addTo(map);
+
+            document.getElementById('lat').value = lat;
+            document.getElementById('lng').value = lng;
+
+            map.on('click', function(e) {
+                const { lat, lng } = e.latlng;
+                marker.setLatLng([lat, lng]);
+
+                document.getElementById('lat').value = lat;
+                document.getElementById('lng').value = lng;
+            });
+
+            marker.on('dragend', function() {
+                const pos = marker.getLatLng();
+
+                document.getElementById('lat').value = pos.lat;
+                document.getElementById('lng').value = pos.lng;
+            });
+        }
+
+        function updateFromInput() {
+            const lat = parseFloat(document.getElementById('lat').value);
+            const lng = parseFloat(document.getElementById('lng').value);
+
+            if (!isNaN(lat) && !isNaN(lng)) {
+                initMap(lat, lng);
+            }
+        }
+
+        updateFromInput();
+
+        document.getElementById('lat').addEventListener('change', updateFromInput);
+        document.getElementById('lng').addEventListener('change', updateFromInput);
+    </script>
 @endsection

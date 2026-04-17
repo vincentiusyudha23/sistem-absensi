@@ -1,15 +1,164 @@
 @extends('master')
 
+@section('styles')
+    <style>
+        #map{
+            height: 200px;
+        }
+
+        /* Mobile (< 768px) */
+        @media (max-width: 767.98px) {
+            #map{
+                height: 250px;
+            }
+        }
+    </style>
+@endsection
+
 @section('content')
     <section>
         <div class="w-100">
-            <h2 class="fw-bold mb-1">Riwayat Absensi</h2>
+            <div class="w-100 d-flex justify-content-between align-items-center">
+                <h2 class="fw-bold mb-1">Detail Anggota</h2>
+                <div class="d-flex gap-1">
+                    <a href="{{ route('admin.edit_anggota', $anggota->id) }}" class="btn btn-success fw-semibold">
+                        <i class="bi bi-pen-fill"></i> Edit
+                    </a>
+                    <button type="button" id="btn-deleted-user" class="btn btn-danger fw-semibold">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
+            
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Riwayat Absensi</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.list_users') }}">Daftar Anggota</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detail Anggota</li>
                 </ol>
             </nav>
+        </div>
+
+        <div class="w-100 row g-1 mb-3">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #198754;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-check-circle fs-4"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tepatWaktu">{{ $anggota->absensi()->where('status', 1)->count() }}</h4>
+                            <small>Tepat Waktu</small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #fd7e14;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-clock-history fs-4"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-terlambat">{{ $anggota->absensi()->where('status', 2)->count() }}</h4>
+                            <small>Terlambat</small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #dc3545;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-x-circle fs-4"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tidakHadir">{{ $anggota->absensi()->where('status', 3)->count() }}</h4>
+                            <small>Tidak Hadir</small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 fw-bold">Data Anggota</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row align-items-center">
+                    
+                    {{-- FOTO --}}
+                    <div class="col-md-2 d-flex justify-content-center align-items-center mb-3 mb-md-0">
+                        <div class="rounded-circle flex-shrink-0 d-flex align-items-center justify-content-center fw-semibold text-white"
+                            style="width:75px; height:75px; background-color: #3B6D11; font-size:23px;">
+                            {{ collect(explode(' ', $anggota->name))->map(fn($k) => strtoupper(substr($k,0,1)))->implode('') }}
+                        </div>
+                    </div>
+
+                    {{-- DATA --}}
+                    <div class="col-md-5">
+                        <h5 class="fw-bold mb-3">{{ $anggota->name }}</h5>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">NRP / NIP</div>
+                            <div class="col-md-8 fw-semibold">{{ $anggota->nrp }}</div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Divisi</div>
+                            <div class="col-md-8 fw-semibold">{{ $anggota->divisi }}</div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Jabatan</div>
+                            <div class="col-md-8 fw-semibold">{{ $anggota->jabatan }}</div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Email</div>
+                            <div class="col-md-8 fw-semibold">{{ $anggota->email }}</div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Status</div>
+                            <div class="col-md-8">
+                                @if($anggota->status == 1)
+                                    <span class="badge bg-success">Aktif</span>
+                                @else
+                                    <span class="badge bg-secondary">Tidak Aktif</span>
+                                @endif
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5">
+                        <div id="map" class="rounded"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card shadow-sm border-0 mb-3">
@@ -51,7 +200,7 @@
                 <div class="w-100 d-flex justify-content-end mb-2">
                     <button class="btn btn-light border fw-semibold" type="button" id="btn-export">Export</button>
                 </div>
-                <livewire:absensi-table userId="{{ Auth::user()->id }}"/>
+                <livewire:absensi-table userId="{{ $anggota->id }}"/>
             </div>
         </div>
 
@@ -199,7 +348,65 @@
 @endsection
 
 @section('scripts')
+    {{-- Leaflet JS --}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
+        document.getElementById('btn-deleted-user').addEventListener('click', function(e){
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Apakah anda yakin",
+                text: "Kamu tidak akan bisa membatalkan tindakan ini!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+                buttonsStyling: false, // WAJIB dimatikan
+                customClass: {
+                    confirmButton: "btn btn-success fw-semibold me-2",
+                    cancelButton: "btn btn-danger fw-semibold"
+                }
+            }).then((result) => {
+                if (result.isConfirmed){
+                    Swal.fire({
+                        title: 'Memproses...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    let url = '{{ route("admin.deleted_anggota", ["id" => $anggota->id]) }}';
+
+                    fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil",
+                                text: data.msg,
+                                showConfirmButton: false
+                            });
+
+                            location.href = "{{ route('admin.list_users') }}";
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire("Error", "Terjadi kesalahan", "error");
+                    });
+
+                }
+            });
+        });
+
         document.querySelector('.btn-filter').addEventListener('click', function () {
 
             let tanggal_min = document.getElementById('filter-tanggal-min').value || null;
@@ -233,6 +440,25 @@
         document.getElementById('btn-export').addEventListener('click', function() {
             Livewire.dispatch('exportData');
         });
+
+        let userMap = null;
+        let userMarker = null;
+        const [userLat, userLng] = @json([$anggota->latitude, $anggota->longitude]);
+
+        function userMapInit(){
+            userMap = L.map('map').setView([userLat, userLng], 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(userMap);
+
+            userMarker = L.marker([userLat, userLng])
+                .addTo(userMap)
+                .bindPopup('{{ $anggota->name }}')
+                .openPopup();
+        }
+
+        userMapInit();
 
         let detailMap = null;
         let markerIn = null;
@@ -268,6 +494,7 @@
                 await showDetail(this.dataset.id);
                 if (e.target.classList.contains('btn-detail')) {
                     let id = e.target.dataset.id;
+                    console.log('ID:', id);
                 }
             });
         });
@@ -282,7 +509,7 @@
             document.getElementById('modalLoading').style.display = 'flex';
             resetModal();
 
-            let url = "{{ route('user.detail_absensi', ['id' => '__ID__']) }}".replace('__ID__', id);
+            let url = "{{ route('admin.detail_absensi', ['id' => '__ID__']) }}".replace('__ID__', id);
 
             try {
                 const res = await fetch(url, {

@@ -27,6 +27,12 @@ class AdminController extends Controller
         return view('admin.tambah-anggota');
     }
 
+    public function detailAnggota($id)
+    {
+        $anggota = User::find($id);
+        return view('admin.detail-anggota', compact('anggota'));
+    }
+
     public function storeAnggota(Request $request)
     {
         $request->validate([
@@ -34,6 +40,8 @@ class AdminController extends Controller
             'nrp' => 'required|max:20|unique:users,nrp',
             'jabatan' => 'required|string',
             'divisi' => 'required|string',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ], [
             'name.required' => 'Nama tidak boleh kosong.',
             'nrp.required' => 'NRP/NIP tidak boleh kosong.',
@@ -53,6 +61,8 @@ class AdminController extends Controller
                 'role' => 'user',
                 'username' => $request->nrp,
                 'password' => Hash::make($request->nrp),
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude
             ]);
 
             $user->assignRole('user');
@@ -85,6 +95,8 @@ class AdminController extends Controller
             'jabatan' => 'required|string',
             'divisi' => 'required|string',
             'status' => 'nullable',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ]);
 
         try {
@@ -98,6 +110,8 @@ class AdminController extends Controller
                 'jabatan' => $request->jabatan,
                 'divisi' => $request->divisi,
                 'status' => $request->status == 'on' ? true : false,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude
             ]);
 
             DB::commit();
@@ -177,6 +191,17 @@ class AdminController extends Controller
             'lng_in'   => $absen->longitude1,
             'lat_out'  => $absen->latitude2,
             'lng_out'  => $absen->longitude2,
+        ]);
+    }
+
+    public function deletedUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Data anggota berhasil di hapus.'
         ]);
     }
 }

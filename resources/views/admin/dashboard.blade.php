@@ -19,57 +19,62 @@
         </div>
 
         <div class="w-100 row g-1 mb-3">
-            <div class="col-md-4 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge text-bg-primary">
-                                <i class="bi bi-check2 fs-3"></i>
-                            </span>
-                            <h5 class="fw-semibold mb-0">Hari ini</h5>
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #198754;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-check-circle fs-4"></i>
+                            </div>
                         </div>
-                        <div class="text-center text-success py-2">
-                            <h1 class="d-inline-block mx-2" style="font-weight: 900;">{{ $absens->where('status', 1)->count() }}</h1>
-                            <span class="fs-3">
-                                Hadir
-                            </span>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tepatWaktu">{{ $absens->where('status', 1)->count() }}</h4>
+                            <small>Tepat Waktu</small>
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge text-bg-warning text-white">
-                                <i class="bi bi-exclamation-triangle-fill fs-3"></i>
-                            </span>
-                            <h5 class="fw-semibold mb-0">Terlambat</h5>
+
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #fd7e14;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-clock-history fs-4"></i>
+                            </div>
                         </div>
-                        <div class="text-center text-warning py-2">
-                            <h1 class="d-inline-block mx-2" style="font-weight: 900;">{{ $absens->where('status', 2)->count() }}</h1>
-                            <span class="fs-3">
-                                Anggota
-                            </span>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-terlambat">{{ $absens->where('status', 2)->count() }}</h4>
+                            <small>Terlambat</small>
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge text-bg-danger">
-                                <i class="bi bi-x fs-3"></i>
-                            </span>
-                            <h5 class="fw-semibold mb-0">Tidak Hadir</h5>
+
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="card border-0 shadow-sm text-white" style="background: #dc3545;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-x-circle fs-4"></i>
+                            </div>
                         </div>
-                        <div class="text-center text-danger py-2">
-                            <h1 class="d-inline-block mx-2" style="font-weight: 900;">{{ $absens->where('status', 3)->count() }}</h1>
-                            <span class="fs-3">
-                                Anggota
-                            </span>
+
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tidakHadir">{{ $absens->where('status', 3)->count() }}</h4>
+                            <small>Tidak Hadir</small>
                         </div>
+
                     </div>
                 </div>
             </div>

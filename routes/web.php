@@ -25,6 +25,8 @@ Route::middleware(['auth', 'role:admin'])->controller(AdminController::class)->p
     Route::get('/data-absensi', 'dataAbsensi')->name('data_absensi');
     Route::get('/fetch-data-absensi', 'getNewAbsensis')->name('fetch_data_absensi');
     Route::get('/detail-absensi/{id}', 'getDetailAbsen')->name('detail_absensi');
+    Route::get('/detail-anggota/{id}', 'detailAnggota')->name('detail_anggota');
+    Route::delete('/deleted-anggota/{id}', 'deletedUser')->name('deleted_anggota');
 });
 
 Route::middleware(['auth', 'role:user'])->controller(UserController::class)->name('user.')->group(function(){
@@ -34,6 +36,7 @@ Route::middleware(['auth', 'role:user'])->controller(UserController::class)->nam
     Route::get('/profil', 'profile')->name('profile');
     Route::post('/profil-update', 'updateProfile')->name('profile.update');
     Route::get('/get-my-address', 'getMyAddress')->name('getMyAddress');
+    Route::get('/detail-absensi/{id}', [AdminController::class, 'getDetailAbsen'])->name('detail_absensi');
 });
 
 require __DIR__.'/auth.php';

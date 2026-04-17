@@ -14,50 +14,62 @@
 
         <div class="w-100 row g-1 mb-3">
             <div class="col-md-4 col-sm-6 col-12">
-                <div class="card card-body">
-                    <div class="w-100 d-flex align-items-center gap-2">
-                        <span class="text-success fs-4">
-                            <i class="bi bi-person-fill-add"></i>
-                        </span>
+                <div class="card border-0 shadow-sm text-white" style="background: #198754;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-check-circle fs-4"></i>
+                            </div>
+                        </div>
 
-                        <h5 class="fw-semibold mb-0">Hadir</h5>
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tepatWaktu">{{ $absens->where('status', 1)->count() }}</h4>
+                            <small>Tepat Waktu</small>
+                        </div>
+
                     </div>
-
-                    <h1 class="mx-3" id="text-tepatWaktu" style="font-weight: 900;">
-                        {{ $absens->where('status', 1)->count() }}
-                    </h1>
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-6 col-12">
-                <div class="card card-body">
-                    <div class="w-100 d-flex align-items-center gap-2">
-                        <span class="text-secondary fs-4">
-                            <i class="bi bi-clock-fill"></i>
-                        </span>
+                <div class="card border-0 shadow-sm text-white" style="background: #fd7e14;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-clock-history fs-4"></i>
+                            </div>
+                        </div>
 
-                        <h5 class="fw-semibold mb-0">Telat</h5>
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-terlambat">{{ $absens->where('status', 2)->count() }}</h4>
+                            <small>Terlambat</small>
+                        </div>
+
                     </div>
-
-                    <h1 class="mx-3" id="text-terlambat" style="font-weight: 900;">
-                        {{ $absens->where('status', 2)->count() }}
-                    </h1>
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-6 col-12">
-                <div class="card card-body">
-                    <div class="w-100 d-flex align-items-center gap-2">
-                        <span class="text-danger fs-4">
-                            <i class="bi bi-x-circle-fill"></i>
-                        </span>
+                <div class="card border-0 shadow-sm text-white" style="background: #dc3545;">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div class="me-3">
+                            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <i class="bi bi-x-circle fs-4"></i>
+                            </div>
+                        </div>
 
-                        <h5 class="fw-semibold mb-0">Tidak Hadir</h5>
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="text-tidakHadir">{{ $absens->where('status', 3)->count() }}</h4>
+                            <small>Tidak Hadir</small>
+                        </div>
+
                     </div>
-
-                    <h1 class="mx-3" id="text-tidakHadir" style="font-weight: 900;">
-                        {{ $absens->where('status', 3)->count() }}
-                    </h1>
                 </div>
             </div>
         </div>

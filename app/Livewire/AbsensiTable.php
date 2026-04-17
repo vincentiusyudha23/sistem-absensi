@@ -20,6 +20,12 @@ class AbsensiTable extends DataTableComponent
     public $tanggal_max = null;
     public $status = null;
     public $searchNama = null;
+    public $userId = null;
+
+    public function __construct($userId = null)
+    {
+        $this->userId = $userId ?? null;
+    }
 
     public function configure(): void
     {
@@ -73,6 +79,9 @@ class AbsensiTable extends DataTableComponent
         return Absensi::query()
             ->with('user')
             ->select('absensis.*')
+            ->when(!empty($this->userId), function($query){
+                $query->where('user_id', $this->userId);
+            })
             ->when(!empty($this->tanggal_min) || !empty($this->tanggal_max), function ($query) {
                 $query->whereDate('absensis.created_at', '>=' ,$this->tanggal_min)
                     ->whereDate('absensis.created_at', '<=' ,$this->tanggal_max);

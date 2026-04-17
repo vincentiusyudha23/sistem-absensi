@@ -6,6 +6,8 @@ use App\Models\User;
 use Livewire\Attributes\On;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class UsersTable extends DataTableComponent
@@ -24,7 +26,7 @@ class UsersTable extends DataTableComponent
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        $users = User::query()->where('role', 'user');
+        $users = User::query()->select('*')->where('role', 'user');
             
         return $users;
     }
@@ -50,17 +52,19 @@ class UsersTable extends DataTableComponent
                     : '<span class="badge bg-danger">Tidak Aktif</span>'
                 )
                 ->html(),
-            Column::make("Aksi", "id")
-                ->format(function($value, $row, Column $column){
-                    $route = route('admin.edit_anggota', ['id' => $row]);
-                    return '
-                        <div class="d-flex flex-wrap gap-1">
-                            <a href='.$route.' class="btn btn-info btn-sm">Edit</a>
-                            <button class="btn btn-danger btn-sm">Hapus</button>
-                        </div>
-                    ';
-                })
-                ->html(),
+            ButtonGroupColumn::make('Aksi')
+                ->buttons([
+                    LinkColumn::make('Detail')
+                        ->title(fn($row) => 'Detail')
+                        ->location(fn($row) => route('admin.detail_anggota', ['id' => $row->id]))
+                        ->attributes(function($row) {
+                            return [
+                                'type' => 'button',
+                                'class' => 'btn btn-sm btn-success fw-semibold',
+                                'data-id' => $row->id
+                            ];
+                        }),
+                ])
         ];
     }
 
