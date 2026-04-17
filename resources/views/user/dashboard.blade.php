@@ -272,6 +272,9 @@
             let map = null;
             let marker = null;
             let watchId = null;
+            let circle = null;
+            const [userLat, userLng] = @json([$user->latitude, $user->longitude]);
+            const radius = @json(config('app.radius_absen'));
 
             function enableButtons() {
                 @if(empty($absensi))
@@ -299,6 +302,13 @@
                 marker = L.marker([lat, lng]).addTo(map)
                     .bindPopup('Lokasi Anda')
                     .openPopup();
+
+                circle = L.circle([userLat, userLng], {
+                    color: 'blue',
+                    fillColor: '#30a5ff',
+                    fillOpacity: 0.3,
+                    radius:  radius// meter
+                }).addTo(map);
             }
 
             // UPDATE POSISI

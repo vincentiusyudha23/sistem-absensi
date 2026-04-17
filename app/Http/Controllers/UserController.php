@@ -38,6 +38,17 @@ class UserController extends Controller
             $minAbsen = Carbon::today()->setTime(6, 0);
             $maxAbsen = Carbon::today()->setTime(17, 30);
 
+            $radius = config('app.radius_absen');
+            $homeLat = $user->latitude;
+            $homeLng = $user->longitude;
+
+            if($this->isOutsideRadius($request->latitude, $request->longitude, $homeLat, $homeLng, $radius)){
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'Anda berada di luar jangkauan'
+                ], 422);
+            }
+
             if($timeAbsen->lt($minAbsen) || $timeAbsen->gt($maxAbsen) || $timeAbsen->isWeekend()){
                 return response()->json([
                     'success' => false,
@@ -83,6 +94,24 @@ class UserController extends Controller
                 'msg' => $e->getMessage()
             ], 422);
         }
+    }
+
+    private function isOutsideRadius($userLat, $userLng, $centerLat, $centerLng, $radiusMeter)
+    {
+        $earthRadius = 6371000; // meter
+
+        $dLat = deg2rad($centerLat - $userLat);
+        $dLng = deg2rad($centerLng - $userLng);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            cos(deg2rad($userLat)) * cos(deg2rad($centerLat)) *
+            sin($dLng / 2) * sin($dLng / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $earthRadius * $c;
+
+        return $distance > $radiusMeter;
     }
 
     private function getStatusAbsen()

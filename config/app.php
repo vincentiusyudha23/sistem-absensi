@@ -186,4 +186,5 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'radius_absen' => env('RADIUS_ABSEN', 500),
 ];

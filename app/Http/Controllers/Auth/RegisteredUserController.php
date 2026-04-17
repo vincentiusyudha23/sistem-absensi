@@ -39,7 +39,9 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user'
+            'role' => 'user',
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
         ]);
 
         $user->assignRole('user');

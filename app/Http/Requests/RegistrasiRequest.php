@@ -30,6 +30,8 @@ class RegistrasiRequest extends FormRequest
             'jabatan' => ['required', 'string', 'max:255'],
             'divisi' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::class)],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
 
             'email' => [
                 'required',
@@ -60,6 +62,8 @@ class RegistrasiRequest extends FormRequest
             'nrp.unique' => 'NRP sudah terdaftar.',
             'jabatan.required' => 'Jabatan wajib diisi.',
             'divisi.required' => 'Divisi wajib diisi.',
+            'latitude.required' => 'Latitude wajib diisi',
+            'longitude.required' => 'Longitude wajib diisi',
 
             'username.required' => 'Username wajib diisi.',
             'username.alpha_dash' => 'Username hanya boleh huruf, angka, dash (-) dan underscore (_).',
