@@ -25,11 +25,11 @@
     <div class="card shadow-sm" style="width: 25rem;">
         <div class="card-body">
             
-            <div class="text-center">
+            <div class="text-center d-flex flex-column justify-content-center align-items-center">
                 <img src="/assets/img/logo-1.png" class="logo">
-                <div class="text-success text-center">
-                    <h3 class="mb-0 pb-1 border-bottom border-2 border-success d-inline-block fw-bold" style="font-size: large;">
-                        SISTEM ABSENSI PUSPALAD
+                <div class="text-success text-center d-inline-block">
+                    <h3 class="mb-0 pb-1 border-bottom border-2 border-success fw-bold" style="font-size: large;">
+                        ABSENSI PUSPALAD
                     </h3>
                     <span class="d-block mt-0" style="font-size: small;">
                         PUSAT PERALATAN ANGKATAN DARAT
@@ -112,6 +112,11 @@
             </div>
 
         </div>
+
+        <footer class="footer-custom text-center">
+            <div>© {{ \Carbon\Carbon::now()->format('Y') }} PUSPALAD - TNI AD</div>
+            <div>All rights reserved.</div>
+        </footer>
     </div>
 </section>
 @endsection

@@ -8,7 +8,7 @@
             <img class="bg-white rounded-circle p-2" src="/assets/img/logo-1.png" alt="puspalad" width="75" height="auto">
             <div class="text-white text-center">
                 <h3 class="mb-0 pb-1 border-bottom border-2 border-light" style="font-size: large;">
-                    SISTEM ABSENSI PUSPALAD
+                    ABSENSI PUSPALAD
                 </h3>
                 <span class="d-block mt-0" style="font-size: small;">
                     PUSAT PERALATAN ANGKATAN DARAT

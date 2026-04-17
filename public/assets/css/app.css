@@ -455,3 +455,11 @@ label.required::after {
 .sort-link:hover {
     color: #2d7a3a;
 }
+
+.footer-custom {
+    width: 100%;
+    color: #b3b2b2;
+    font-size: 12px;
+    padding: 10px 15px;
+    display: inline-block; /* biar tidak full width */
+}
