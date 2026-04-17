@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:rekap-absensi-harian')
             ->weekdays()
-            ->dailyAt('22:00');
+            ->dailyAt('22:10');
     }
 
     /**
