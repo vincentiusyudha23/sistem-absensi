@@ -157,7 +157,7 @@
                 </button>
             </div>
             <div class="col-md-6 col-12">
-                <button type="button" id="checkoutBtn" {{ empty($absensi) ? 'disabled' : '' }} class="btn fs-2 fw-bold btn-danger text-center w-100">
+                <button type="button" id="checkoutBtn" {{ empty($absensi) || $absensi->status == 3 ? 'disabled' : '' }} class="btn fs-2 fw-bold btn-danger text-center w-100">
                     <i class="bi bi-x-circle-fill mx-1"></i> Absen Pulang
                 </button>
             </div>
@@ -392,7 +392,7 @@
                     checkinBtn.disabled = false;
                 @endif
 
-                @if(!empty($absensi) && empty($absensi->waktu_keluar))
+                @if(!empty($absensi) && empty($absensi->waktu_keluar) && $absensi->status != 3)
                     checkoutBtn.disabled = false;
                 @endif
             }
