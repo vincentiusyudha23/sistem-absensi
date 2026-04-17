@@ -39,4 +39,8 @@ Route::middleware(['auth', 'role:user'])->controller(UserController::class)->nam
     Route::get('/detail-absensi/{id}', [AdminController::class, 'getDetailAbsen'])->name('detail_absensi');
 });
 
+Route::get('test-email', function(){
+    return view('vendor.notifications.email');
+});
+
 require __DIR__.'/auth.php';

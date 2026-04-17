@@ -38,6 +38,12 @@
             </div>
 
             <div class="mt-3">
+
+                @if (session('status'))
+                    <div class="alert alert-success mt-2 small" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -85,16 +91,20 @@
                     </div>
 
                     {{-- Remember Me --}}
-                    <div class="mb-3 form-check">
-                        <input 
-                            type="checkbox" 
-                            class="form-check-input" 
-                            id="remember"
-                            name="remember"
-                        >
-                        <label class="form-check-label text-success" for="remember">
-                            Ingat Saya
-                        </label>
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3 form-check">
+                            <input 
+                                type="checkbox" 
+                                class="form-check-input" 
+                                id="remember"
+                                name="remember"
+                            >
+                            <label class="form-check-label text-success" for="remember">
+                                Ingat Saya
+                            </label>
+                        </div>
+
+                        <a href="{{ route('password.request') }}" class="text-success">Lupa Password?</a>
                     </div>
 
                     {{-- Button --}}
@@ -107,7 +117,7 @@
                 </form>
 
                 <div class="text-center mt-2">
-                    <a href="{{ route('register') }}" class="text-success">Registrasi!</a>
+                    <a href="{{ route('register') }}" class="text-success text-decoration-none">Registrasi!</a>
                 </div>
             </div>
 
