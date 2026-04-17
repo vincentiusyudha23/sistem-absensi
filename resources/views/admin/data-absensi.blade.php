@@ -23,7 +23,7 @@
                         <h5 class="fw-semibold mb-0">Hadir</h5>
                     </div>
 
-                    <h1 class="mx-3" style="font-weight: 900;">
+                    <h1 class="mx-3" id="text-tepatWaktu" style="font-weight: 900;">
                         {{ $absens->where('status', 1)->count() }}
                     </h1>
                 </div>
@@ -39,7 +39,7 @@
                         <h5 class="fw-semibold mb-0">Telat</h5>
                     </div>
 
-                    <h1 class="mx-3" style="font-weight: 900;">
+                    <h1 class="mx-3" id="text-terlambat" style="font-weight: 900;">
                         {{ $absens->where('status', 2)->count() }}
                     </h1>
                 </div>
@@ -55,7 +55,7 @@
                         <h5 class="fw-semibold mb-0">Tidak Hadir</h5>
                     </div>
 
-                    <h1 class="mx-3" style="font-weight: 900;">
+                    <h1 class="mx-3" id="text-tidakHadir" style="font-weight: 900;">
                         {{ $absens->where('status', 3)->count() }}
                     </h1>
                 </div>
@@ -67,8 +67,14 @@
                 <div class="row g-1">
                     <div class="col-md-4 col-12">
                         <label class="form-label mb-1 fw-semibold">Filter Tanggal</label>
-                        <div class="input-group">
-                            <input class="form-control" id="filter-tanggal" type="date">
+                        <div class="d-flex align-items-center gap-1">
+                            <div class="input-group">
+                                <input class="form-control" id="filter-tanggal-min" type="date">
+                            </div>
+                            <span>To</span>
+                            <div class="input-group">
+                                <input class="form-control" id="filter-tanggal-max" type="date">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
@@ -97,6 +103,9 @@
 
         <div class="card">
             <div class="card-body">
+                <div class="w-100 d-flex justify-content-end mb-2">
+                    <button class="btn btn-light border fw-semibold" type="button" id="btn-export">Export</button>
+                </div>
                 <livewire:absensi-table />
             </div>
         </div>
@@ -251,16 +260,22 @@
     <script>
         document.querySelector('.btn-filter').addEventListener('click', function () {
 
-            let tanggal = document.getElementById('filter-tanggal').value || null;
+            let tanggal_min = document.getElementById('filter-tanggal-min').value || null;
+            let tanggal_max = document.getElementById('filter-tanggal-max').value || null;
             let status = document.getElementById('filter-status').value || null;
             let search = document.getElementById('filter-search').value || null;
 
             Livewire.dispatch('setFilterAbsensi', {
-                tanggal: tanggal,
+                tanggal_min: tanggal_min,
+                tanggal_max: tanggal_max,
                 status: status,
                 search: search
             });
 
+        });
+
+        document.getElementById('btn-export').addEventListener('click', function() {
+            Livewire.dispatch('exportData');
         });
 
         let detailMap = null;

@@ -101,4 +101,14 @@ class StatusAbsenEnum
             default => ''
         };
     }
+
+    public static function getTextStatus($val)
+    {
+        return match($val){
+            1 => 'Tepat Waktu',
+            2 => 'Terlambat',
+            3 => 'Tidak Hadir',
+            default => 'Tidal Hadir'
+        };
+    } 
 }

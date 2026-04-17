@@ -3,9 +3,12 @@
 namespace App\Livewire;
 
 use App\Enums\StatusAbsenEnum;
+use App\Exports\AbsenExport;
 use App\Models\Absensi;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\On;
+use Maatwebsite\Excel\Facades\Excel;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
@@ -13,7 +16,8 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class AbsensiTable extends DataTableComponent
 {
-    public $tanggal = null;
+    public $tanggal_min = null;
+    public $tanggal_max = null;
     public $status = null;
     public $searchNama = null;
 
@@ -30,13 +34,38 @@ class AbsensiTable extends DataTableComponent
     }
 
     #[On('setFilterAbsensi')]
-    public function setFilterAbsensi($tanggal, $status, $search)
+    public function setFilterAbsensi($tanggal_min, $tanggal_max, $status, $search)
     {
-        $this->tanggal = $tanggal ?? null;
+        $this->tanggal_min = $tanggal_min ?? null;
+        $this->tanggal_max = $tanggal_max ?? $tanggal_min ?? null;
         $this->status = $status ?? null;
         $this->searchNama = $search ?? null;
 
         $this->resetPage(); // penting biar balik ke page 1
+        
+        $absens = $this->builder()->get();
+
+        $tepat_waktu = $absens->filter(fn($a) => $a->status == 1)->count();
+        $terlambat   = $absens->filter(fn($a) => $a->status == 2)->count();
+        $tidak_hadir = $absens->filter(fn($a) => $a->status == 3)->count();
+
+        $this->js('
+            let tepatWaktu = document.getElementById("text-tepatWaktu");
+            let terlambat = document.getElementById("text-terlambat");
+            let tidakHadir = document.getElementById("text-tidakHadir");
+
+            tepatWaktu.innerText = '.$tepat_waktu.';
+            terlambat.innerText = '.$terlambat.';
+            tidakHadir.innerText = '.$tidak_hadir.';
+        ');
+    }
+
+    #[On('exportData')]
+    public function export()
+    {
+        $absens = $this->builder()->get();
+        $dateNow = Carbon::now()->format('dmY');
+        return Excel::download(new AbsenExport($absens), 'absen_' . $dateNow .'.xlsx');
     }
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
@@ -44,8 +73,9 @@ class AbsensiTable extends DataTableComponent
         return Absensi::query()
             ->with('user')
             ->select('absensis.*')
-            ->when($this->tanggal, function ($query) {
-                $query->whereDate('absensis.created_at', $this->tanggal);
+            ->when(!empty($this->tanggal_min) || !empty($this->tanggal_max), function ($query) {
+                $query->whereDate('absensis.created_at', '>=' ,$this->tanggal_min)
+                    ->whereDate('absensis.created_at', '<=' ,$this->tanggal_max);
             })
             ->when($this->status, function ($query) {
                 $query->where('absensis.status', $this->status);
