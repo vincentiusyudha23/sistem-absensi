@@ -42,7 +42,14 @@ class UserController extends Controller
             $homeLat = $user->latitude;
             $homeLng = $user->longitude;
 
-            if($this->isOutsideRadius($request->latitude, $request->longitude, $homeLat, $homeLng, $radius)){
+            $radius_office = config('app.radius_office');
+            $officeLat = config('app.latitude_office');
+            $officeLng = config('app.longitude_office');
+
+            if(
+                $this->isOutsideRadius($request->latitude, $request->longitude, $homeLat, $homeLng, $radius) && 
+                $this->isOutsideRadius($request->latitude, $request->longitude, $officeLat, $officeLng, $radius_office)
+            ){
                 return response()->json([
                     'success' => false,
                     'msg' => 'Anda berada di luar jangkauan'
@@ -63,6 +70,14 @@ class UserController extends Controller
             $type = 1;
 
             if($absen){
+                $minAbsenPulang = Carbon::today()->setTime(15, 0);
+                if($timeAbsen->lt($minAbsenPulang)){
+                    return response()->json([
+                        'success' => false,
+                        'msg' => 'Gagal melakukan absen pulang, anda dapat melakukannya di atas pukul 15.00'
+                    ], 422);
+                }
+
                 $type = 2;
                 $absen->update([
                     'waktu_keluar' => $timeAbsen,

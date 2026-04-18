@@ -189,4 +189,7 @@ return [
     ])->toArray(),
 
     'radius_absen' => env('RADIUS_ABSEN', 500),
+    'radius_office' => env('RADIUS_OFFICE', 500),
+    'latitude_office' => env('LATITUDE_OFFICE', 500),
+    'longitude_office' => env('LONGITUDE_OFFICE', 500)
 ];

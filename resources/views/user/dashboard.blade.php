@@ -384,8 +384,11 @@
             let marker = null;
             let watchId = null;
             let circle = null;
+            let circleOffice = null;
             const [userLat, userLng] = @json([$user->latitude, $user->longitude]);
             const radius = @json(config('app.radius_absen'));
+            const [officeLat, officeLng] = @json([config('app.latitude_office'), config('app.longitude_office')]);
+            const radius_office = @json(config('app.radius_office'));
 
             function enableButtons() {
                 @if(empty($absensi))
@@ -404,7 +407,7 @@
 
             // INIT MAP SEKALI SAJA
             function initMap(lat, lng) {
-                map = L.map('map').setView([lat, lng], 17);
+                map = L.map('map').setView([lat, lng], 12);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
@@ -419,6 +422,13 @@
                     fillColor: '#30a5ff',
                     fillOpacity: 0.3,
                     radius:  radius// meter
+                }).addTo(map);
+
+                circleOffice = L.circle([officeLat, officeLng], {
+                    color: 'blue',
+                    fillColor: '#30a5ff',
+                    fillOpacity: 0.3,
+                    radius:  radius_office// meter
                 }).addTo(map);
             }
 
