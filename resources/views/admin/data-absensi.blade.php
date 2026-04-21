@@ -100,14 +100,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-3 col-12">
                         <label class="form-label mb-1 fw-semibold">Cari Nama / NRP...</label>
                         <div class="input-group">
                             <input class="form-control" id="filter-search" type="text" placeholder="Cari nama / NRP...">
                         </div>
                     </div>
-                    <div class="col-md-1 col-12 d-flex align-items-end">
+                    <div class="col-md-2 col-12 d-flex align-items-end gap-1">
                         <button type="button" class="btn btn-primary btn-filter btn-sm w-100 py-2 fw-semibold">Filter</button>
+                        <button type="button" class="btn bg-secondary bg-opacity-25 btn-reset btn-sm w-100 py-2 fw-semibold">Reset</button>
                     </div>
                 </div>
             </div>
@@ -282,6 +283,22 @@
                 tanggal_max: tanggal_max,
                 status: status,
                 search: search
+            });
+
+        });
+
+        document.querySelector('.btn-reset').addEventListener('click', function () {
+
+            document.getElementById('filter-tanggal-min').value = null;
+            document.getElementById('filter-tanggal-max').value = null;
+            document.getElementById('filter-status').value = "";
+            document.getElementById('filter-search').value = null;
+
+            Livewire.dispatch('setFilterAbsensi', {
+                tanggal_min: null,
+                tanggal_max: null,
+                status: null,
+                search: null
             });
 
         });
