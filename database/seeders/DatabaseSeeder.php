@@ -38,19 +38,19 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@test.com'
         ]);
 
-        $user = User::updateOrCreate([
-            'username' => '123456789',
-            'role' => 'user'
-        ], [
-            'name' => 'Yudha',
-            'nrp' => '987654321',
-            'username' => '123456789',
-            'role' => 'user',
-            'password' => Hash::make('password'),
-            'email' => 'yudha@test.com'
-        ]);
+        // $user = User::updateOrCreate([
+        //     'username' => '123456789',
+        //     'role' => 'user'
+        // ], [
+        //     'name' => 'Yudha',
+        //     'nrp' => '987654321',
+        //     'username' => '123456789',
+        //     'role' => 'user',
+        //     'password' => Hash::make('password'),
+        //     'email' => 'yudha@test.com'
+        // ]);
 
         $admin->assignRole('admin');
-        $user->assignRole('user');
+        // $user->assignRole('user');
     }
 }
