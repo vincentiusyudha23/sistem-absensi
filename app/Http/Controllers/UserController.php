@@ -35,9 +35,6 @@ class UserController extends Controller
             $user = Auth::user();
             $timeAbsen = Carbon::now();
 
-            $minAbsen = Carbon::today()->setTime(6, 0);
-            $maxAbsen = Carbon::today()->setTime(17, 30);
-
             $radius = config('app.radius_absen');
             $homeLat = $user->latitude;
             $homeLng = $user->longitude;
@@ -45,6 +42,13 @@ class UserController extends Controller
             $radius_office = config('app.radius_office');
             $officeLat = config('app.latitude_office');
             $officeLng = config('app.longitude_office');
+
+            if($timeAbsen->isWeekend()){
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'Absensi tidak tersedia pada hari Sabtu dan Minggu.'
+                ], 422);
+            }
 
             if(
                 $this->isOutsideRadius($request->latitude, $request->longitude, $homeLat, $homeLng, $radius) && 
@@ -56,13 +60,6 @@ class UserController extends Controller
                 ], 422);
             }
 
-            if($timeAbsen->lt($minAbsen) || $timeAbsen->gt($maxAbsen) || $timeAbsen->isWeekend()){
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'Saat ini anda tidak bisa melakukan absen.'
-                ], 422);
-            }
-
             $absen = Absensi::where('user_id', $user->id)
                         ->whereDate('created_at', $timeAbsen)
                         ->first();
@@ -70,11 +67,12 @@ class UserController extends Controller
             $type = 1;
 
             if($absen){
-                $minAbsenPulang = Carbon::today()->setTime(15, 0);
+                $minAbsenPulang = Carbon::today()->setTime(15, 15);
+
                 if($timeAbsen->lt($minAbsenPulang)){
                     return response()->json([
                         'success' => false,
-                        'msg' => 'Gagal melakukan absen pulang, anda dapat melakukannya di atas pukul 15.00'
+                        'msg' => 'Absen pulang hanya bisa dilakukan di atas pukul 15:15 WIB'
                     ], 422);
                 }
 
@@ -86,6 +84,16 @@ class UserController extends Controller
                     'address2' => $request->address,
                 ]);
             }else{
+                $minAbsenMasuk = Carbon::today()->setTime(6, 0);
+                $maxAbsenMasuk = Carbon::today()->setTime(9, 0);
+
+                if(!$timeAbsen->between($minAbsenMasuk, $maxAbsenMasuk)){
+                    return response()->json([
+                        'success' => false,
+                        'msg' => 'Absen masuk hanya bisa dilakukan pukul 06:00 WIB sampai pukul 09:00 WIB'
+                    ], 422);
+                }
+
                 $absen = Absensi::create([
                     'user_id' => $user->id,
                     'waktu_masuk' => Carbon::now(),

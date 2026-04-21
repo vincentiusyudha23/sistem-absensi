@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware(['auth', 'role:admin'])->controller(AdminController::class)->prefix('admin')->name('admin.')->group(function(){
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/', 'dashboard')->name('dashboard');
     Route::get('/daftar-anggota', 'listUsers')->name('list_users');
     Route::get('/tambah-anggota', 'tambahAnggota')->name('tambah_anggota');
     Route::post('/tambah-anggota/store', 'storeAnggota')->name('tambah_anggota.store');
