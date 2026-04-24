@@ -31,6 +31,10 @@ class DashboardAbsensiTable extends DataTableComponent
             ->with('user')
             ->select('absensis.*')
             ->whereDate('absensis.created_at', Carbon::now());
+        
+        if(empty($this->getSorts())){
+            $absensi = $absensi->orderBy('absensis.created_at', 'desc');
+        }
             
         return $absensi;
     }

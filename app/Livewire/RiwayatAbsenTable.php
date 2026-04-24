@@ -28,6 +28,10 @@ class RiwayatAbsenTable extends DataTableComponent
     {
         $user = Auth::user();
         $absensi = Absensi::query()->where('user_id', $user->id);
+
+        if(empty($this->getSorts())){
+            $absensi = $absensi->orderBy('created_at', 'desc');
+        }
             
         return $absensi;
     }

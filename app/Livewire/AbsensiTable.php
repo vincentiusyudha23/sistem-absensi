@@ -76,7 +76,7 @@ class AbsensiTable extends DataTableComponent
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        return Absensi::query()
+        $absens = Absensi::query()
             ->with('user')
             ->select('absensis.*')
             ->when(!empty($this->userId), function($query){
@@ -94,8 +94,13 @@ class AbsensiTable extends DataTableComponent
                     $q->where('name', 'like', '%' . $this->searchNama . '%')
                     ->orWhere('nrp', 'like', '%' . $this->searchNama . '%');
                 });
-            })
-            ->orderBy('absensis.created_at', 'desc');
+            });
+
+        if(empty($this->getSorts())){
+            $absens = $absens->orderBy('absensis.created_at', 'desc');
+        }
+
+        return $absens;
     }
 
     public function columns(): array
