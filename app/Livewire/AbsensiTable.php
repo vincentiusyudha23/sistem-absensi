@@ -30,6 +30,7 @@ class AbsensiTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id')
+            ->setDefaultSort('created_at', 'desc')
             ->setFiltersEnabled() // Aktifkan filters
             ->setFilterLayout('slide-down') // Atau 'slide-down'
             ->setFilterPillsEnabled()
