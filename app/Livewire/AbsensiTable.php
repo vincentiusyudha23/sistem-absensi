@@ -30,7 +30,6 @@ class AbsensiTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-            ->setDefaultSort('created_at', 'desc')
             ->setFiltersEnabled() // Aktifkan filters
             ->setFilterLayout('slide-down') // Atau 'slide-down'
             ->setFilterPillsEnabled()
@@ -95,7 +94,8 @@ class AbsensiTable extends DataTableComponent
                     $q->where('name', 'like', '%' . $this->searchNama . '%')
                     ->orWhere('nrp', 'like', '%' . $this->searchNama . '%');
                 });
-            });
+            })
+            ->orderBy('absensis.created_at', 'desc');
     }
 
     public function columns(): array
