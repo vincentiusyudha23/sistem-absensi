@@ -42,7 +42,7 @@ class RiwayatAbsenTable extends DataTableComponent
                 ->sortable(),
             Column::make("Absen Masuk", "waktu_masuk")
                 ->format(function($row){
-                    return Carbon::parse($row)->format('H:i');
+                    return $row ? Carbon::parse($row)->format('H:i') : '';
                 })
                 ->sortable(),
             Column::make("Keterangan Masuk", "id")
@@ -67,7 +67,7 @@ class RiwayatAbsenTable extends DataTableComponent
                 ->html(),
             Column::make("Absen Pulang", "waktu_keluar")
                 ->format(function($row){
-                    return Carbon::parse($row)->format('H:i');
+                    return $row ? Carbon::parse($row)->format('H:i') : '';
                 })
                 ->sortable(),
             Column::make("Keterangan Pulang", "id")
