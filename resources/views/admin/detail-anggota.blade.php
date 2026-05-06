@@ -122,6 +122,11 @@
                         <h5 class="fw-bold mb-3">{{ $anggota->name }}</h5>
 
                         <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Username</div>
+                            <div class="col-md-8 fw-semibold">{{ $anggota->username }}</div>
+                        </div>
+
+                        <div class="row mb-2">
                             <div class="col-md-4 text-muted">NRP / NIP</div>
                             <div class="col-md-8 fw-semibold">{{ $anggota->nrp }}</div>
                         </div>
